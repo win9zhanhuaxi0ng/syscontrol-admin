@@ -2,7 +2,7 @@ package com.demofactory.syscontrol.controller.admin.demo;
 
 
 import com.demofactory.syscontrol.api.DemoService;
-import com.demofactory.syscontrol.domain.demo.Demo;
+import com.demofactory.syscontrol.domain.Demo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

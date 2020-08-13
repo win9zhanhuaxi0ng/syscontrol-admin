@@ -1,0 +1,12 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://49.235.184.142:3306/study1?characterEncoding=utf-8&autoReconnect=true&useSSL=false
+    username: study1
+    password: study1
+
+mybatis:
+  mapper-locations:  classpath:mapper/*/*.xml
+  type-aliases-package:  com.demofactory.syscontrol.domain
