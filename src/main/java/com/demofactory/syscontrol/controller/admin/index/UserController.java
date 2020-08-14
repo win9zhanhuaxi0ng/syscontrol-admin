@@ -15,10 +15,27 @@ public class UserController {
 
     @GetMapping("login")
     @ResponseBody
-    public String toLogin(String account){
+    public String toLogin(String account,String password){
 
-        SysUser sysUser = sysUserService.loginByAccount(account);
-
-        return sysUser.getPassword();
+        SysUser sysUser = sysUserService.loginByAccountAndPassword(account,password);
+        if (sysUser!= null){
+            return "登录成功！";
+        }
+        return "登录失败！";
+    }
+    @GetMapping("register")
+    @ResponseBody
+    public String toRegister(String account,String password){
+        int flag = sysUserService.registerSysUser(account,password);
+        switch (flag){
+            case 1:
+                return "注册成功";
+            case 0:
+                return "账号或密码为空，请重新输入";
+            case -1:
+                return "账号已存在！";
+            default:
+                return "未知错误请联系管理员";
+        }
     }
 }
