@@ -35,8 +35,8 @@ public class UserController {
     }
     @GetMapping("register")
     @ResponseBody
-    public String toRegister(String account,String password,String pwdHint){
-        int flag = sysUserService.registerSysUser(account,password,pwdHint);
+    public String toRegister(String account,String password,String secondaryPwd,String pwdHint){
+        int flag = sysUserService.registerSysUser(account,password,secondaryPwd,pwdHint);
         switch (flag){
             case 1:
                 return "注册成功";
@@ -44,6 +44,8 @@ public class UserController {
                 return "账号或密码为空，请重新输入";
             case -1:
                 return "账号已存在！";
+            case -2:
+                return "两次密码输入不一致！";
             default:
                 return "未知错误请联系管理员";
         }
