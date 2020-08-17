@@ -1,8 +1,10 @@
 package com.demofactory.syscontrol.controller.admin.index;
 
 import com.demofactory.syscontrol.api.SysUserService;
+import com.demofactory.syscontrol.dao.SysUserDao;
 import com.demofactory.syscontrol.domain.SysUser;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,6 +20,8 @@ public class UserController {
     @Resource
     private SysUserService sysUserService;
 
+    @Autowired
+    private SysUserDao sysUserDao;
     @GetMapping("login")
     @ResponseBody
     public String toLogin(String account,String password){
@@ -49,5 +53,13 @@ public class UserController {
             default:
                 return "未知错误请联系管理员";
         }
+    }
+    @GetMapping("demo")
+    public String testDemo(){
+        SysUser sysUser = new SysUser();
+        sysUser.setPassword("123");
+        sysUser.setAccount("456");
+        sysUserDao.insert(sysUser);
+        return "插入成功";
     }
 }
