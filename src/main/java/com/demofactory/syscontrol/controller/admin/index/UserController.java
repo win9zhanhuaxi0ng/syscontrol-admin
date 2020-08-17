@@ -4,6 +4,7 @@ import com.demofactory.syscontrol.api.SysUserService;
 import com.demofactory.syscontrol.dao.SysUserDao;
 import com.demofactory.syscontrol.domain.SysUser;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jdk.nashorn.internal.ir.annotations.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +14,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
+import static org.apache.zookeeper.ZooDefs.OpCode.check;
+
 @RestController
 @RequestMapping("index")
 public class UserController {
 
-    @Resource
+    @Reference
     private SysUserService sysUserService;
 
     @Autowired
