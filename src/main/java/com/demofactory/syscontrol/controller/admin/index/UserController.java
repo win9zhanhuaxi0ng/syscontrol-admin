@@ -2,9 +2,14 @@ package com.demofactory.syscontrol.controller.admin.index;
 
 import com.demofactory.syscontrol.api.SysUserService;
 import com.demofactory.syscontrol.domain.SysUser;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("index")
@@ -19,14 +24,19 @@ public class UserController {
 
         SysUser sysUser = sysUserService.loginByAccountAndPassword(account,password);
         if (sysUser!= null){
-            return "登录成功！";
+            LocalDateTime localDateTime = sysUserService.findLastLoginTimeByAccount(account);
+            sysUserService.updateLastLoginTime(LocalDateTime.now(),account);
+            if (localDateTime == null){
+                return "欢迎您第一次登录！";
+            }
+            return "登录成功！上次登录时间为："+localDateTime;
         }
         return "登录失败！";
     }
     @GetMapping("register")
     @ResponseBody
-    public String toRegister(String account,String password){
-        int flag = sysUserService.registerSysUser(account,password);
+    public String toRegister(String account,String password,String pwdHint){
+        int flag = sysUserService.registerSysUser(account,password,pwdHint);
         switch (flag){
             case 1:
                 return "注册成功";
