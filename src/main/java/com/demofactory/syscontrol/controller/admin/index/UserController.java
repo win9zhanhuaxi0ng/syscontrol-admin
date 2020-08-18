@@ -24,7 +24,7 @@ public class UserController {
 
     @Autowired
     private SysUserDao sysUserDao;
-    @GetMapping("login")
+    @PostMapping("login")
     public String toLogin(String account,String password){
 
         SysUser sysUser = sysUserService.loginByAccountAndPassword(account,password);
@@ -38,7 +38,7 @@ public class UserController {
         }
         return "登录失败！";
     }
-    @GetMapping("register")
+    @PostMapping("register")
     public String toRegister(String account,String password,String secondaryPwd,String pwdHint){
         int flag = sysUserService.registerSysUser(account,password,secondaryPwd,pwdHint);
         switch (flag){
