@@ -4,7 +4,8 @@ import com.demofactory.syscontrol.api.SysUserService;
 import com.demofactory.syscontrol.dao.SysUserDao;
 import com.demofactory.syscontrol.domain.SysUser;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jdk.nashorn.internal.ir.annotations.Reference;
+
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,19 +15,16 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
-import static org.apache.zookeeper.ZooDefs.OpCode.check;
-
 @RestController
 @RequestMapping("index")
 public class UserController {
 
-    @Reference
+    @Reference(check = false)
     private SysUserService sysUserService;
 
     @Autowired
     private SysUserDao sysUserDao;
     @GetMapping("login")
-    @ResponseBody
     public String toLogin(String account,String password){
 
         SysUser sysUser = sysUserService.loginByAccountAndPassword(account,password);
@@ -41,7 +39,6 @@ public class UserController {
         return "登录失败！";
     }
     @GetMapping("register")
-    @ResponseBody
     public String toRegister(String account,String password,String secondaryPwd,String pwdHint){
         int flag = sysUserService.registerSysUser(account,password,secondaryPwd,pwdHint);
         switch (flag){
