@@ -24,7 +24,7 @@ public class BookController {
     @PostMapping("insertBook")
     public String insertBook(Books books){
 
-        if(StringUtils.isEmpty(books.getBookName()))
+        if(StringUtils.isBlank(books.getBookName()))
         {
             System.out.println("result------书名不能为空");
             return "书名不为空";
@@ -36,7 +36,7 @@ public class BookController {
     @PostMapping("selectBook")
     public List<Books> selectBook(Books books)
     {
-        if(StringUtils.isEmpty(books.getBookName()))
+        if(StringUtils.isBlank(books.getBookName()))
         {
             System.out.println("result------书名不能为空");
             return null;
@@ -46,7 +46,7 @@ public class BookController {
     @PostMapping("deleteBook")
     public String deleteBook(Books books)
     {
-        if(StringUtils.isEmpty(books.getBookName()))
+        if(StringUtils.isBlank(books.getBookName()))
         {
             System.out.println("result------书名不能为空");
             return "书名不能为空";
