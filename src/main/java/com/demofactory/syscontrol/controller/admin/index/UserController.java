@@ -5,6 +5,7 @@ import com.demofactory.syscontrol.dao.SysUserDao;
 import com.demofactory.syscontrol.domain.SysUser;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -61,5 +62,18 @@ public class UserController {
         sysUser.setAccount("456");
         sysUserDao.insert(sysUser);
         return "插入成功";
+    }
+
+    @PostMapping("forgetPassword")
+    public String forgetPassword(SysUser sysUser)
+    {
+        if(StringUtils.isBlank(sysUser.getAccount())){
+            return "账号不能为空";
+        }
+
+        if(StringUtils.isBlank(sysUser.getPwdHint())){
+            return "提示语不能为空";
+        }
+        return sysUserService.SelectAccountOrHint(sysUser);
     }
 }
