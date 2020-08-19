@@ -2,13 +2,7 @@ server:
   port: 8082
 spring:
   application:
-    name: 'template-admin'
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://49.235.184.142:3306/study1?characterEncoding=utf-8&autoReconnect=true&useSSL=false
-    username: study1
-    password: study1
-
+    name: 'syscontrol-admin'
 
 # dubbo 相关配置(dubbo 的配置不再以 Spring 开头)
 dubbo:
@@ -25,9 +19,9 @@ dubbo:
     address: zookeeper://127.0.0.1:2181
     # 默认组
     group: dubbo
-#  # 元数据中心
-#  metadata-report:
-#    address: zookeeper://127.0.0.1:2181
+  #  # 元数据中心
+  #  metadata-report:
+  #    address: zookeeper://127.0.0.1:2181
   consumer:
     # '*' 表示随机任意获取某一个版本的接口【灰度发布】
     version: '*'

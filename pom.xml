@@ -75,17 +75,25 @@
         </dependency>
 
         <!-- 本项目-->
-        <dependency>
-            <groupId>com.demofactory.syscontrol</groupId>
-            <artifactId>syscontrol-service</artifactId>
-            <version>${syscontrol.version}</version>
-        </dependency>
 
         <!--String Utils 工具-->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.demofactory.syscontrol</groupId>
+            <artifactId>syscontrol-api</artifactId>
+            <version>1.0</version>
+            <!-- mybatis-plus 里面有jdbc链接，如果不排除，则在admin服务调用层必须给出数据库连接url -->
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-jdbc</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
