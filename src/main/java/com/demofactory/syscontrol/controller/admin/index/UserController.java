@@ -1,6 +1,7 @@
 package com.demofactory.syscontrol.controller.admin.index;
 
 import com.demofactory.syscontrol.api.SysUserService;
+import com.demofactory.syscontrol.dao.SysUserDao;
 import com.demofactory.syscontrol.domain.SysUser;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -22,6 +23,8 @@ public class UserController {
     @Reference(check = false)
     private SysUserService sysUserService;
 
+    @Autowired
+    private SysUserDao sysUserDao;
     @PostMapping("login")
     public String toLogin(String account,String password){
 
@@ -52,7 +55,14 @@ public class UserController {
                 return "未知错误请联系管理员";
         }
     }
-
+    @GetMapping("demo")
+    public String testDemo(){
+        SysUser sysUser = new SysUser();
+        sysUser.setPassword("123");
+        sysUser.setAccount("456");
+        sysUserDao.insert(sysUser);
+        return "插入成功";
+    }
 
     @PostMapping("forgetPassword")
     public String forgetPassword(SysUser sysUser)
