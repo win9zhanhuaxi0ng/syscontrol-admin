@@ -18,19 +18,22 @@ import java.time.LocalDateTime;
 @RequestMapping("index")
 public class UserController {
     //手机号正则表达式
+    /**
+     * REGEX_MOBILE 手机号正则表达式
+     * REGEX_EMAIL  邮箱正则表达式
+     * REGEX_PASSWORD   密码正则表达式
+     */
     private static final String REGEX_MOBILE = "^1[3|4|5|7|8][0-9]{9}$";
-    //邮箱正则表达式
     private static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-    //密码正则表达式
     private static final String REGEX_PASSWORD = "^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])).{6,}$";
 
     @Reference(check = false)
     private SysUserService sysUserService;
-
+    //登录
     @PostMapping("login")
     public String login(@RequestBody SysUser sysUser) {
 
-        if (sysUser.getAccount().equals("") || sysUser.getPassword().equals("")) {
+        if ("".equals(sysUser.getAccount()) || "".equals(sysUser.getPassword())) {
             return "账号密码不能为空";
         }
         SysUser sysUser1 = sysUserService.login(sysUser);
@@ -50,26 +53,19 @@ public class UserController {
 
     @PostMapping("register")
     public String register(@RequestBody SysUser sysUser, @RequestParam String secondaryPwd) {
-        if (sysUser.getPassword().equals("") || sysUser.getAccount().equals("") || secondaryPwd.equals("")) {
+        if ("".equals(sysUser.getPassword()) || "".equals(sysUser.getAccount()) || "".equals(secondaryPwd)) {
             return "注册信息不能为空！";
         }
-        //含有正则表达式验证方法的自定义类
-        RegexUtil regexUtil = new RegexUtil();
-        //手机正则表达式验证
-        boolean flagMobile = regexUtil.checkRegex(REGEX_MOBILE,sysUser.getAccount());
-        //邮箱正则表达式验证
-        boolean flagEmail = regexUtil.checkRegex(REGEX_EMAIL,sysUser.getAccount());
-        //密码正则表达式验证
-        boolean flagPassword = regexUtil.checkRegex(REGEX_PASSWORD,sysUser.getPassword());
-
-        if (flagEmail) {
+        //自定义RegexUtil类，实现正则表达式验证
+        //正则表达式验证
+        if (RegexUtil.checkRegex(REGEX_EMAIL,sysUser.getAccount())) {
             sysUser.setUserEmail(sysUser.getAccount());
-        } else if (flagMobile) {
+        } else if (RegexUtil.checkRegex(REGEX_MOBILE,sysUser.getAccount())) {
             sysUser.setUserPhone(sysUser.getAccount());
         } else {
             return "账号格式不符合！";
         }
-        if (!flagPassword){
+        if (!RegexUtil.checkRegex(REGEX_PASSWORD,sysUser.getPassword())){
             return "密码格式不符合！";
         }
         int flag = sysUserService.register(sysUser, secondaryPwd);
@@ -86,7 +82,7 @@ public class UserController {
     }
 
     @PostMapping("forgetPassword")
-    public String forgetPassword(SysUser sysUser) {
+    public String forgetPassword(@RequestBody SysUser sysUser) {
         if (StringUtils.isBlank(sysUser.getAccount())) {
             return "账号不能为空";
         }
@@ -95,5 +91,17 @@ public class UserController {
             return "提示语不能为空";
         }
         return sysUserService.selectAccountAndHint(sysUser);
+    }
+
+    @PostMapping("updatePassword")
+    public String updatePassword(@RequestBody SysUser sysUser,@RequestParam String secondaryPwd){
+        if ("".equals(sysUser.getPassword())|| "".equals(secondaryPwd)){
+            return "输入不能为空！";
+        }
+        //密码正则表达式验证
+        if(!RegexUtil.checkRegex(REGEX_PASSWORD,sysUser.getPassword())){
+            return "重置密码格式不正确！";
+        }
+        return sysUserService.updatePassword(sysUser,secondaryPwd);
     }
 }
