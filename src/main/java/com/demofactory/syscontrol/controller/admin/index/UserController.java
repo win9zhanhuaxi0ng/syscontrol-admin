@@ -69,6 +69,6 @@ public class UserController {
         if(StringUtils.isBlank(sysUser.getPwdHint())){
             return "提示语不能为空";
         }
-        return sysUserService.SelectAccountOrHint(sysUser);
+        return sysUserService.SelectAccountAndHint(sysUser);
     }
 }
