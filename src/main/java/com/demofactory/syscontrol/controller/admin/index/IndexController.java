@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("index")
-public class UserController {
+public class IndexController {
 
     @Reference(check = false)
     private SysUserService sysUserService;
