@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @PostMapping("forgetPassword")
-    public String forgetPassword(@RequestBody SysUser sysUser) {
+    public String forgetPassword(SysUser sysUser) {
         if (StringUtils.isBlank(sysUser.getAccount())) {
             return "账号不能为空";
         }

@@ -2,6 +2,7 @@ package com.demofactory.syscontrol.controller.admin.management;
 
 import com.demofactory.syscontrol.api.AssignUserService;
 import com.demofactory.syscontrol.domain.SysUser;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import java.util.Objects;
  * @description: 分配用户Controller
  * @date : 2020/8/19 13:24
  */
+@Slf4j
 @RestController
 @RequestMapping("management")
 public class AssignUserController {
@@ -34,15 +36,15 @@ public class AssignUserController {
     @PostMapping(value = {"updateAssignUser","assignUnassignedUser"})
     public String updateAssignUser(SysUser sysUser) {
         if (StringUtils.isBlank(sysUser.getAccount())) {
-            System.out.println("result------用户名为空");
+            log.info("result------用户名为空");
             return "用户名不为空";
         }
         if (Objects.isNull(sysUser.getDomainId())) {
-            System.out.println("result------域为空");
+            log.info("result------域为空");
             return "域不为空";
         }
         if (Objects.isNull(sysUser.getOrgId())) {
-            System.out.println("result------机构为空");
+            log.info("result------机构为空");
             return "机构不为空";
         }
         return assignUserService.updateAssignUser(sysUser);
