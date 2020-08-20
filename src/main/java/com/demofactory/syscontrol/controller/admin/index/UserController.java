@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 
 
 /**
@@ -25,43 +24,19 @@ public class UserController {
     @PostMapping("login")
     public String login(@RequestBody SysUser sysUser) {
 
-        if ("".equals(sysUser.getAccount()) || "".equals(sysUser.getPassword())) {
+        if (StringUtils.isBlank(sysUser.getAccount()) || StringUtils.isBlank(sysUser.getPassword())) {
             return "账号密码不能为空";
         }
-        switch (sysUserService.login(sysUser)) {
-            case 1:
-                return "登录成功";
-            case 0:
-                return "账号不存在";
-            case -1:
-                return "账户已停用";
-            case -2:
-                return "账号密码不正确";
-            default:
-                return "请联系管理员";
-        }
+        return sysUserService.login(sysUser);
 
     }
 
     @PostMapping("register")
     public String register(@RequestBody SysUser sysUser, @RequestParam String secondaryPwd) {
-        if ("".equals(sysUser.getPassword()) || "".equals(sysUser.getAccount()) || "".equals(secondaryPwd)) {
+        if (StringUtils.isBlank(sysUser.getPassword()) || StringUtils.isBlank(sysUser.getAccount()) || StringUtils.isBlank(secondaryPwd)) {
             return "注册信息不能为空！";
         }
-        switch (sysUserService.register(sysUser, secondaryPwd)) {
-            case 1:
-                return "注册成功";
-            case -1:
-                return "账号格式不正确！请填写正确手机号或邮箱";
-            case -2:
-                return "密码格式不正确！请输入包含大小写字母+数字的6位以上密码";
-            case -3:
-                return "两次密码输入不一致";
-            case -4:
-                return "账号已存在";
-            default:
-                return "未知错误请联系管理员";
-        }
+        return sysUserService.register(sysUser, secondaryPwd);
     }
 
     @PostMapping("forgetPassword")
@@ -78,7 +53,7 @@ public class UserController {
 
     @PostMapping("updatePassword")
     public String updatePassword(@RequestBody SysUser sysUser, @RequestParam String secondaryPwd) {
-        if ("".equals(sysUser.getPassword()) || "".equals(secondaryPwd)) {
+        if (StringUtils.isBlank(sysUser.getPassword()) || StringUtils.isBlank(secondaryPwd)) {
             return "输入不能为空！";
         }
         //密码正则表达式验证
