@@ -54,6 +54,6 @@ public class BookController {
             System.out.println("result------域不能为空");
             return null;
         }
-        return bookService.deleteBook(books);
+        return bookService.deleteBook(books.getId());
     }
 }
