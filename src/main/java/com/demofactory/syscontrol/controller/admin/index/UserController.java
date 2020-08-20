@@ -1,7 +1,7 @@
 package com.demofactory.syscontrol.controller.admin.index;
 
 import com.demofactory.syscontrol.api.SysUserService;
-import com.demofactory.syscontrol.controller.admin.utils.RegexUtil;
+import com.demofactory.syscontrol.common.utils.RegexUtil;
 import com.demofactory.syscontrol.domain.SysUser;
 
 import org.apache.commons.lang.StringUtils;
@@ -17,18 +17,10 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("index")
 public class UserController {
-    //手机号正则表达式
-    /**
-     * REGEX_MOBILE 手机号正则表达式
-     * REGEX_EMAIL  邮箱正则表达式
-     * REGEX_PASSWORD   密码正则表达式
-     */
-    private static final String REGEX_MOBILE = "^1[3|4|5|7|8][0-9]{9}$";
-    private static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-    private static final String REGEX_PASSWORD = "^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])).{6,}$";
 
     @Reference(check = false)
     private SysUserService sysUserService;
+
     //登录
     @PostMapping("login")
     public String login(@RequestBody SysUser sysUser) {
@@ -36,19 +28,19 @@ public class UserController {
         if ("".equals(sysUser.getAccount()) || "".equals(sysUser.getPassword())) {
             return "账号密码不能为空";
         }
-        SysUser sysUser1 = sysUserService.login(sysUser);
-        if (sysUser1 == null) {
-            return "账号密码错误";
+        switch (sysUserService.login(sysUser)) {
+            case 1:
+                return "登录成功";
+            case 0:
+                return "账号不存在";
+            case -1:
+                return "账户已停用";
+            case -2:
+                return "账号密码不正确";
+            default:
+                return "请联系管理员";
         }
-        if (sysUser1.getStatus() == 1) {
-            LocalDateTime localDateTime = sysUser1.getLastLoginTime();
-            sysUserService.updateLastLoginTime(sysUser1);
-            if (localDateTime == null) {
-                return "欢迎您第一次登录！";
-            }
-            return "登录成功！上次登录时间为：" + localDateTime;
-        }
-        return "账户已删除或停用！";
+
     }
 
     @PostMapping("register")
@@ -56,26 +48,17 @@ public class UserController {
         if ("".equals(sysUser.getPassword()) || "".equals(sysUser.getAccount()) || "".equals(secondaryPwd)) {
             return "注册信息不能为空！";
         }
-        //自定义RegexUtil类，实现正则表达式验证
-        //正则表达式验证
-        if (RegexUtil.checkRegex(REGEX_EMAIL,sysUser.getAccount())) {
-            sysUser.setUserEmail(sysUser.getAccount());
-        } else if (RegexUtil.checkRegex(REGEX_MOBILE,sysUser.getAccount())) {
-            sysUser.setUserPhone(sysUser.getAccount());
-        } else {
-            return "账号格式不符合！";
-        }
-        if (!RegexUtil.checkRegex(REGEX_PASSWORD,sysUser.getPassword())){
-            return "密码格式不符合！";
-        }
-        int flag = sysUserService.register(sysUser, secondaryPwd);
-        switch (flag) {
+        switch (sysUserService.register(sysUser, secondaryPwd)) {
             case 1:
                 return "注册成功";
             case -1:
-                return "账号已存在！";
+                return "账号格式不正确！请填写正确手机号或邮箱";
             case -2:
-                return "两次密码输入不一致！";
+                return "密码格式不正确！请输入包含大小写字母+数字的6位以上密码";
+            case -3:
+                return "两次密码输入不一致";
+            case -4:
+                return "账号已存在";
             default:
                 return "未知错误请联系管理员";
         }
@@ -94,14 +77,14 @@ public class UserController {
     }
 
     @PostMapping("updatePassword")
-    public String updatePassword(@RequestBody SysUser sysUser,@RequestParam String secondaryPwd){
-        if ("".equals(sysUser.getPassword())|| "".equals(secondaryPwd)){
+    public String updatePassword(@RequestBody SysUser sysUser, @RequestParam String secondaryPwd) {
+        if ("".equals(sysUser.getPassword()) || "".equals(secondaryPwd)) {
             return "输入不能为空！";
         }
         //密码正则表达式验证
-        if(!RegexUtil.checkRegex(REGEX_PASSWORD,sysUser.getPassword())){
+        if (!RegexUtil.checkRegex(RegexUtil.REGEX_PASSWORD, sysUser.getPassword())) {
             return "重置密码格式不正确！";
         }
-        return sysUserService.updatePassword(sysUser,secondaryPwd);
+        return sysUserService.updatePassword(sysUser, secondaryPwd);
     }
 }
