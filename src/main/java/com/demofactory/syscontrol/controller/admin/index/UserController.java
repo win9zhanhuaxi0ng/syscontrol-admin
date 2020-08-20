@@ -4,6 +4,7 @@ import com.demofactory.syscontrol.api.SysUserService;
 import com.demofactory.syscontrol.common.utils.RegexUtil;
 import com.demofactory.syscontrol.domain.SysUser;
 
+import com.demofactory.syscontrol.domain.dto.SysUserDTO;
 import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +33,12 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public String register(@RequestBody SysUser sysUser, @RequestParam String secondaryPwd) {
-        if (StringUtils.isBlank(sysUser.getPassword()) || StringUtils.isBlank(sysUser.getAccount()) || StringUtils.isBlank(secondaryPwd)) {
+    public String register(@RequestBody SysUserDTO sysUserDTO) {
+        if (StringUtils.isBlank(sysUserDTO.getPassword()) || StringUtils.isBlank(sysUserDTO.getAccount())
+                || StringUtils.isBlank(sysUserDTO.getSecondaryPwd())) {
             return "注册信息不能为空！";
         }
-        return sysUserService.register(sysUser, secondaryPwd);
+        return sysUserService.register(sysUserDTO);
     }
 
     @PostMapping("forgetPassword")
@@ -52,14 +54,10 @@ public class UserController {
     }
 
     @PostMapping("updatePassword")
-    public String updatePassword(@RequestBody SysUser sysUser, @RequestParam String secondaryPwd) {
-        if (StringUtils.isBlank(sysUser.getPassword()) || StringUtils.isBlank(secondaryPwd)) {
+    public String updatePassword(@RequestBody SysUserDTO sysUserDTO) {
+        if (StringUtils.isBlank(sysUserDTO.getPassword()) || StringUtils.isBlank(sysUserDTO.getSecondaryPwd())) {
             return "输入不能为空！";
         }
-        //密码正则表达式验证
-        if (!RegexUtil.checkRegex(RegexUtil.REGEX_PASSWORD, sysUser.getPassword())) {
-            return "重置密码格式不正确！";
-        }
-        return sysUserService.updatePassword(sysUser, secondaryPwd);
+        return sysUserService.updatePassword(sysUserDTO);
     }
 }
