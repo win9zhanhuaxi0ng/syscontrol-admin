@@ -1,25 +1,31 @@
 package com.demofactory.syscontrol.controller.admin.demo;
 
 import com.demofactory.syscontrol.common.Result;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.demofactory.syscontrol.domain.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("user")
 public class testController {
 
 
-    @RequestMapping("/login")
-    private Result login(){
-        Result result=new Result();
-        result.setMessage("登录成功");
-        result.setSuccess(true);
-        Map<String,String> map=new HashMap<>();
-        map.put("content","i am content");
-        return Result.ok(map);
+    /**
+     * 前端提交后端
+     * @param users
+     * @return
+     */
+    @RequestMapping(value="login",method= RequestMethod.POST)
+    private Map login(@RequestBody User[] users){
+            for(User u:users){
+                System.out.println(u.getName()+"  "+u.getAge()+"  "+u.getBirth());
+            }
+        Map map = new HashMap();
+        map.put("success","123");
+        return map;
     }
 }

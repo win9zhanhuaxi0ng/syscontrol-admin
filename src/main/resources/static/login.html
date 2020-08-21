@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+    <script>
+        testAjax()
+        function testAjax() {
+            var users=[{
+                name:'张三',
+                age:'21',
+                birth:'1994-12-12'
+            },
+                {
+                    name:'李四',
+                    age:'20',
+                    birth:'1995-12-11'
+                },
+                {
+                    name:'wangwu',
+                    age:'20',
+                    birth:'1995-12-11'
+                }];
+            $.ajax({
+                type:'POST',
+                data:JSON.stringify(users),
+                contentType :'application/json',
+                dataType:'json',
+                url :'user/login',
+                success :function(data) {
+                    alert("OK");
+                },
+                error :function(e) {
+                    alert("error");
+                }})
+        }
+    </script>
+</body>
+</html>
