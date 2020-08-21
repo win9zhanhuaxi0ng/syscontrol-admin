@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script ></script>
+<body>
+<form action="/index/login" method="post">
+    <label>
+        账号:<input type="text" name="username"><br>
+    </label>
+    <label>
+        密码:<input type="text" name="password"><br>
+    </label>
+    <input type="submit" name="提交">
+</form>
+
+</body>
+<script>
+    submitHandler:function(form){
+        $.ajax({
+            dataType : "json",
+            url : "/index/login.action",
+            type : "post",
+            data : $("#login_form").serialize(),
+            success : function(data) {
+                $.alert(data.message);
+                if(data.success){
+                    //--------------------------------------------data.success
+                    window.location.href = 'page/main.action';
+                }
+            },
+            error : function (e){
+                var d = e.responseJSON;
+                if(d){
+                    $.alert(d.message);
+                }
+            }
+        });
+        return false; //阻止form提交
+    }
+</script>
+
+</html>
