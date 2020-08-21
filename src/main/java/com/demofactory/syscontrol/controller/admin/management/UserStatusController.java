@@ -23,11 +23,9 @@ public class UserStatusController {
     @Reference(check = false)
     private UserStatusService userStatusService;
 
-    @PostMapping(value = {"deleteUser","enableUser","disableUser"})
-    public String UpdateUser(SysUser sysUser)
-    {
-        if(Objects.isNull(sysUser.getStatus()))
-        {
+    @PostMapping(value = {"deleteUser", "enableUser", "disableUser"})
+    public String UpdateUser(SysUser sysUser) {
+        if (Objects.isNull(sysUser.getStatus())) {
             log.info("result------status不能为空");
             return "status不能为空";
         }

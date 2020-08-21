@@ -5,15 +5,16 @@ import com.demofactory.syscontrol.common.utils.RegexUtil;
 import com.demofactory.syscontrol.domain.SysUser;
 
 import com.demofactory.syscontrol.domain.dto.SysUserDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 
-
 /**
  * @author FHX
  */
+@Slf4j
 @RestController
 @RequestMapping("index")
 public class IndexController {
@@ -32,6 +33,7 @@ public class IndexController {
 
     }
 
+    //注册
     @PostMapping("register")
     public String register(@RequestBody SysUserDTO sysUserDTO) {
         if (StringUtils.isBlank(sysUserDTO.getPassword()) || StringUtils.isBlank(sysUserDTO.getAccount())
@@ -41,6 +43,7 @@ public class IndexController {
         return sysUserService.register(sysUserDTO);
     }
 
+    //忘记密码
     @PostMapping("forgetPassword")
     public String forgetPassword(SysUser sysUser) {
         if (StringUtils.isBlank(sysUser.getAccount())) {
@@ -53,6 +56,7 @@ public class IndexController {
         return sysUserService.selectAccountAndHint(sysUser);
     }
 
+    //修改密码
     @PostMapping("updatePassword")
     public String updatePassword(@RequestBody SysUserDTO sysUserDTO) {
         if (StringUtils.isBlank(sysUserDTO.getPassword()) || StringUtils.isBlank(sysUserDTO.getSecondaryPwd())) {

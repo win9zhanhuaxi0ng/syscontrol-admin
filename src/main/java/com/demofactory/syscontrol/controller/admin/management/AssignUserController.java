@@ -33,7 +33,7 @@ public class AssignUserController {
         return sysUsers;
     }
 
-    @PostMapping(value = {"updateAssignUser","assignUnassignedUser"})
+    @PostMapping(value = {"updateAssignUser", "assignUnassignedUser"})
     public String updateAssignUser(SysUser sysUser) {
         if (StringUtils.isBlank(sysUser.getAccount())) {
             log.info("result------用户名为空");
