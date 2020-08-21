@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Titl</title>
+    <script src="js/jquery/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<form id="fogetPwdForm">
+    <label>
+        账号: &nbsp;<input type="text" id="fogetAccount"><br>
+    </label>
+    <label>
+        提示语: &nbsp;<input type="text" id="forgetPwdHint"><br>
+    </label>
+    <input type="button" id="resetPwdBtn" value="重设密码">
+</form>
+<button id="getBack">返回</button>
+
+</body>
+<script>
+    $("#getBack").click(function () {
+        window.location.href = "index.html";
+    })
+    $("#resetPwdBtn").click(function () {
+        var field = {
+            account: $("#fogetAccount").val(),
+            pwdHint: $("#forgetPwdHint").val()
+        }
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(field),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: '/index/forgetPassword',
+            success: function (data) {
+                if (data.success) {
+                    alert(data.message);
+                    window.location.href = "resetPwd.html";
+                } else {
+                    alert(data.message);
+                    location.reload();
+                }
+            },
+            error: function (e) {
+                alert("未知错误请联系管理员");
+            }
+        })
+    })
+</script>
+</html>

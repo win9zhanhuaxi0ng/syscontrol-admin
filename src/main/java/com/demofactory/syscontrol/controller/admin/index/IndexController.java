@@ -1,6 +1,7 @@
 package com.demofactory.syscontrol.controller.admin.index;
 
 import com.demofactory.syscontrol.api.SysUserService;
+import com.demofactory.syscontrol.common.Result;
 import com.demofactory.syscontrol.common.utils.RegexUtil;
 import com.demofactory.syscontrol.domain.SysUser;
 
@@ -24,13 +25,14 @@ public class IndexController {
 
     //登录
     @PostMapping("login")
-    public String login(@RequestBody SysUser sysUser) {
-
+    public Result login(@RequestBody SysUser sysUser) {
+        Result result = new Result();
+        log.info("已进入登录验证");
         if (StringUtils.isBlank(sysUser.getAccount()) || StringUtils.isBlank(sysUser.getPassword())) {
-            return "账号密码不能为空";
+            result.setMessage("账号密码不能为空");
+            return result;
         }
         return sysUserService.login(sysUser);
-
     }
 
     //注册
@@ -45,20 +47,18 @@ public class IndexController {
 
     //忘记密码
     @PostMapping("forgetPassword")
-    public String forgetPassword(SysUser sysUser) {
-        if (StringUtils.isBlank(sysUser.getAccount())) {
-            return "账号不能为空";
-        }
-
-        if (StringUtils.isBlank(sysUser.getPwdHint())) {
-            return "提示语不能为空";
+    public Result forgetPassword(@RequestBody SysUser sysUser) {
+        Result result = new Result();
+        if (StringUtils.isBlank(sysUser.getAccount())||StringUtils.isBlank(sysUser.getPwdHint())) {
+            result.setMessage("账号或提示语不能为空");
+            return result;
         }
         return sysUserService.selectAccountAndHint(sysUser);
     }
 
     //修改密码
-    @PostMapping("updatePassword")
-    public String updatePassword(@RequestBody SysUserDTO sysUserDTO) {
+    @PostMapping("resetPassword")
+    public String resetPassword(@RequestBody SysUserDTO sysUserDTO) {
         if (StringUtils.isBlank(sysUserDTO.getPassword()) || StringUtils.isBlank(sysUserDTO.getSecondaryPwd())) {
             return "输入不能为空！";
         }
