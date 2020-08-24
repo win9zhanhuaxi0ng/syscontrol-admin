@@ -13,7 +13,7 @@ Id:<br>
 <input type="text" name="id" id="id" value="1">
 <br>
 <button onclick="select()">查询Org</button>
-<br />
+<br/>
 <br>
 domainId:<br>
 <input type="text" name="name" id="domainId1" value="1">
@@ -28,50 +28,52 @@ orgName:<br>
 <script>
     var select = function () {
         var domain = {
-            "domainId":document.getElementById("domainId").value,
-            "id":document.getElementById("id").value,
+            "domainId": document.getElementById("domainId").value,
+            "id": document.getElementById("id").value,
         }
         $.ajax({
-            type:'POST',
-            data:JSON.stringify(domain),
-            contentType :'application/json',
-            dataType:'json',
-            url :'management/selectOrg',
-            success :function(data) {
+            type: 'POST',
+            data: JSON.stringify(domain),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: 'management/selectOrg',
+            success: function (data) {
                 console.log(data);
-                $.each(data,function (i,item) {
-                    $('body').append("<b>"+"id:"+item["id"]
-                        +"domainId:"+item["domainId"]
-                        +"org_name:"+item["orgName"]
-                        +"status:"+item["status"]+"</b>"+"<br />");
+                $.each(data, function (i, item) {
+                    $('body').append("<b>" + "id:" + item["id"]
+                        + "domainId:" + item["domainId"]
+                        + "org_name:" + item["orgName"]
+                        + "status:" + item["status"] + "</b>" + "<br />");
                 })
             },
-            error :function(e) {
+            error: function (e) {
                 alert("error");
-            }})
+            }
+        })
     }
     var insert = function () {
         var domain = {
-            "domainId":document.getElementById("domainId1").value,
-            "orgName":document.getElementById("orgName").value,
+            "domainId": document.getElementById("domainId1").value,
+            "orgName": document.getElementById("orgName").value,
         }
         $.ajax({
-            type:'POST',
-            data:JSON.stringify(domain),
-            contentType :'application/json',
-            dataType:'json',
-            url :'management/insertOrg',
-            success :function(data) {
-                if(data.success)
+            type: 'POST',
+            data: JSON.stringify(domain),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: 'management/insertOrg',
+            success: function (data) {
+                if (data.success)
                     alert(data.message)
                 else {
                     alert(data.message)
                     location.reload();
                 }
             },
-            error :function(e) {
+            error: function (e) {
                 alert("error");
-            }})
+            }
+        })
     }
 </script>
 </html>

@@ -20,14 +20,16 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("management")
-public class OrgStatusController {
+public class OrgStatusController
+{
 
     @Reference
     private OrgStatusService orgStatusService;
 
     @PostMapping(value = {"deleteOrg", "enableOrg", "disableOrg"})
-    public Result UpdateOrg(@RequestBody SysOrg sysOrg) {
-        if(Objects.isNull(sysOrg.getId()))
+    public Result UpdateOrg(@RequestBody SysOrg sysOrg)
+    {
+        if (Objects.isNull(sysOrg.getId()))
         {
             log.info("result------id不能为空");
             return Result.failure("id不能为空");
@@ -47,7 +49,7 @@ public class OrgStatusController {
     @PostMapping("insertOrg")
     public Result insertOrg(@RequestBody SysOrg sysOrg)
     {
-        if(Objects.isNull(sysOrg.getDomainId()))
+        if (Objects.isNull(sysOrg.getDomainId()))
         {
             log.info("result------域id不能为空");
             return Result.failure("域名不为空");

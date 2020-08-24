@@ -13,7 +13,7 @@ bookName:<br>
 <input type="text" name="orgId" id="bookName" value="福尔摩斯探案集">
 <br>
 <button onclick="insert()">插入书</button>
-<br />
+<br/>
 domainId:<br>
 <input type="text" name="domainId" id="domainId1" value="1">
 <br>
@@ -31,74 +31,77 @@ id:<br>
 <script>
     var insert = function () {
         var books = {
-            "bookName":document.getElementById("bookName").value,
-            "domainId":document.getElementById("domainId").value,
+            "bookName": document.getElementById("bookName").value,
+            "domainId": document.getElementById("domainId").value,
         }
         $.ajax({
-            type:'POST',
-            data:JSON.stringify(books),
-            contentType :'application/json',
-            dataType:'json',
-            url :'management/insertBook',
-            success :function(data) {
-                if(data.success)
+            type: 'POST',
+            data: JSON.stringify(books),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: 'management/insertBook',
+            success: function (data) {
+                if (data.success)
                     alert(data.message)
                 else {
                     alert(data.message)
                     location.reload();
                 }
             },
-            error :function(e) {
+            error: function (e) {
                 alert("error");
-            }})
+            }
+        })
     }
     var select = function () {
         var books = {
-            "bookName":document.getElementById("bookName1").value,
-            "domainId":document.getElementById("domainId1").value,
+            "bookName": document.getElementById("bookName1").value,
+            "domainId": document.getElementById("domainId1").value,
         }
         $.ajax({
-            type:'POST',
-            data:JSON.stringify(books),
-            contentType :'application/json',
-            dataType:'json',
-            url :'management/selectBook',
-            success :function(data) {
+            type: 'POST',
+            data: JSON.stringify(books),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: 'management/selectBook',
+            success: function (data) {
                 console.log(data);
-                $.each(data,function (i,item) {
+                $.each(data, function (i, item) {
                     $('body').append("<b>"
-                        +"id:"+item["id"]
-                        +"domainId:"+item["domainId"]
-                        +"bookName:"+item["bookName"]
-                        +"</b>"+"<br />");
+                        + "id:" + item["id"]
+                        + "domainId:" + item["domainId"]
+                        + "bookName:" + item["bookName"]
+                        + "</b>" + "<br />");
                 })
             },
-            error :function(e) {
+            error: function (e) {
                 alert("error");
-            }})
+            }
+        })
     }
 
     var del = function () {
         var books = {
-            "id":document.getElementById("id").value,
+            "id": document.getElementById("id").value,
         }
         $.ajax({
-            type:'POST',
-            data:JSON.stringify(books),
-            contentType :'application/json',
-            dataType:'json',
-            url :'management/deleteBook',
-            success :function(data) {
-                if(data.success)
+            type: 'POST',
+            data: JSON.stringify(books),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: 'management/deleteBook',
+            success: function (data) {
+                if (data.success)
                     alert(data.message)
                 else {
                     alert(data.message)
                     location.reload();
                 }
             },
-            error :function(e) {
+            error: function (e) {
                 alert("异常");
-            }})
+            }
+        })
     }
 
 </script>

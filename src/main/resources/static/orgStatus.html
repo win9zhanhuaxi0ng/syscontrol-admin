@@ -8,7 +8,7 @@
 <body>
 id:<br>
 <input type="text" name="id" id="id" value="1">
-<br />
+<br/>
 <br>
 <button onclick="update(1)">启用Org</button>
 <br>
@@ -20,26 +20,27 @@ id:<br>
 <script>
     var update = function (flag) {
         var user = {
-            "id":document.getElementById("id").value,
-            "status":flag
+            "id": document.getElementById("id").value,
+            "status": flag
         }
         $.ajax({
-            type:'POST',
-            data:JSON.stringify(user),
-            contentType :'application/json',
-            dataType:'json',
-            url :'management/enableOrg',
-            success :function(data) {
-                if(data.success)
+            type: 'POST',
+            data: JSON.stringify(user),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: 'management/enableOrg',
+            success: function (data) {
+                if (data.success)
                     alert(data.message)
                 else {
                     alert(data.message)
                     location.reload();
                 }
             },
-            error :function(e) {
+            error: function (e) {
                 alert("异常");
-            }})
+            }
+        })
     }
 </script>
 </html>

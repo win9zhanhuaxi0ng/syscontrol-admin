@@ -13,10 +13,10 @@ orgId:<br>
 <input type="text" name="orgId" id="orgId" value="1">
 <br>
 <button onclick="select()">查询User</button>
-<br />
+<br/>
 account:<br>
 <input type="text" name="account" id="account" value="6">
-<br />
+<br/>
 domainId:<br>
 <input type="text" name="domainId" id="domainId1" value="1">
 <br>
@@ -31,50 +31,52 @@ orgId:<br>
 <script>
     var select = function () {
         var user = {
-            "domainId":document.getElementById("domainId").value,
-            "orgId":document.getElementById("orgId").value
+            "domainId": document.getElementById("domainId").value,
+            "orgId": document.getElementById("orgId").value
         }
         $.ajax({
-            type:'POST',
-            data:JSON.stringify(user),
-            contentType :'application/json',
-            dataType:'json',
-            url :'management/selectAssignUser',
-            success :function(data) {
+            type: 'POST',
+            data: JSON.stringify(user),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: 'management/selectAssignUser',
+            success: function (data) {
                 console.log(data);
-                $.each(data,function (i,item) {
-                    $('body').append("<b>"+"domainId:"+item["domainId"]
-                                          +"orgId:"+item["orgId"]
-                                          +"account:"+item["account"]+"</b>"+"<br />");
+                $.each(data, function (i, item) {
+                    $('body').append("<b>" + "domainId:" + item["domainId"]
+                        + "orgId:" + item["orgId"]
+                        + "account:" + item["account"] + "</b>" + "<br />");
                 })
             },
-            error :function(e) {
+            error: function (e) {
                 alert("error");
-            }})
+            }
+        })
     }
     var update = function () {
         var user = {
-            "account":document.getElementById("account").value,
-            "domainId":document.getElementById("domainId1").value,
-            "orgId":document.getElementById("orgId1").value
+            "account": document.getElementById("account").value,
+            "domainId": document.getElementById("domainId1").value,
+            "orgId": document.getElementById("orgId1").value
         }
         $.ajax({
-            type:'POST',
-            data:JSON.stringify(user),
-            contentType :'application/json',
-            dataType:'json',
-            url :'management/updateAssignUser',
-            success :function(data) {
-                if(data.success)
+            type: 'POST',
+            data: JSON.stringify(user),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: 'management/updateAssignUser',
+            success: function (data) {
+                if (data.success)
                     alert(data.message)
                 else {
                     alert(data.message)
                     location.reload();
                 }
             },
-            error :function(e) {
+            error: function (e) {
                 alert("异常");
-            }})
+            }
+        })
     }
 </script>
 </html>

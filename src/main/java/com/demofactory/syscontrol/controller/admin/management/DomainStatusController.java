@@ -21,20 +21,23 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("management")
-public class DomainStatusController {
+public class DomainStatusController
+{
 
     @Reference
     private DomainStatusService domainStatusService;
 
     @PostMapping(value = {"deleteDomain", "enableDomain", "disableDomain"})
-    public Result domainUpdate(@RequestBody SysDomain sysDomain) {
-        if(Objects.isNull(sysDomain.getId()))
+    public Result domainUpdate(@RequestBody SysDomain sysDomain)
+    {
+        if (Objects.isNull(sysDomain.getId()))
         {
             log.info("result------id不能为空");
             return Result.failure("id不能为空");
         }
         return Result.OK(domainStatusService.domainUpdate(sysDomain));
     }
+
     //TODO 域管理 增查
     @PostMapping("selectDomain")
     public List<SysDomain> SelectDomain(@RequestBody SysDomain sysDomain)
@@ -47,7 +50,8 @@ public class DomainStatusController {
     @PostMapping("insertDomain")
     public Result insertDomain(@RequestBody SysDomain sysDomain)
     {
-        if (StringUtils.isBlank(sysDomain.getName())) {
+        if (StringUtils.isBlank(sysDomain.getName()))
+        {
             log.info("result------域名不能为空");
             return Result.failure("域名不为空");
         }
