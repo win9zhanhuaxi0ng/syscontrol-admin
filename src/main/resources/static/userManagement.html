@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<p id="p1">
+</p>
+<p id="findDomainAndOrg">
+</p>
+<button id="joinDomianAndOrgBtn" style="display: none;">加入域和组织</button>
+<br>
+<button id="showBooksBtn">显示书列表</button>
+</body>
+<script>
+    $(document).ready(function () {
+        var field = {
+            id: "1296000085949087745"
+        }
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(field),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: '/management/findDomainAndOrg',
+            success: function (data) {
+                if (data.success) {
+                    $("#findDomainAndOrg").text(data.message);
+                } else {
+                    $("#findDomainAndOrg").text(data.message);
+                    $("#joinDomianAndOrgBtn").show();
+                }
+            },
+            error: function (e) {
+                alert("未知错误请联系管理员");
+            }
+        })
+    })
+    $("#showBooksBtn").click(function () {
+    })
+</script>
+</html>

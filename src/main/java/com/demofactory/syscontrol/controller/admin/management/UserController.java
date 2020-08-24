@@ -2,6 +2,7 @@ package com.demofactory.syscontrol.controller.admin.management;
 
 import com.demofactory.syscontrol.api.SysUserService;
 import com.demofactory.syscontrol.api.UserStatusService;
+import com.demofactory.syscontrol.common.Result;
 import com.demofactory.syscontrol.domain.Books;
 import com.demofactory.syscontrol.domain.SysUser;
 import com.demofactory.syscontrol.domain.UserBook;
@@ -30,7 +31,7 @@ public class UserController {
      * @return
      */
     @PostMapping("findDomainAndOrg")
-    public String findDomainAndOrg(@RequestBody SysUser sysUser) {
+    public Result findDomainAndOrg(@RequestBody SysUser sysUser) {
         return sysUserService.selectSysDomainAndSysOrg(sysUser);
     }
 

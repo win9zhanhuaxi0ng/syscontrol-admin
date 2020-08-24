@@ -37,10 +37,12 @@ public class IndexController {
 
     //注册
     @PostMapping("register")
-    public String register(@RequestBody SysUserDTO sysUserDTO) {
+    public Result register(@RequestBody SysUserDTO sysUserDTO) {
+        Result result = new Result();
         if (StringUtils.isBlank(sysUserDTO.getPassword()) || StringUtils.isBlank(sysUserDTO.getAccount())
                 || StringUtils.isBlank(sysUserDTO.getSecondaryPwd())) {
-            return "注册信息不能为空！";
+            result.setMessage("注册信息不能为空");
+            return result;
         }
         return sysUserService.register(sysUserDTO);
     }
@@ -49,7 +51,7 @@ public class IndexController {
     @PostMapping("forgetPassword")
     public Result forgetPassword(@RequestBody SysUser sysUser) {
         Result result = new Result();
-        if (StringUtils.isBlank(sysUser.getAccount())||StringUtils.isBlank(sysUser.getPwdHint())) {
+        if (StringUtils.isBlank(sysUser.getAccount()) || StringUtils.isBlank(sysUser.getPwdHint())) {
             result.setMessage("账号或提示语不能为空");
             return result;
         }
