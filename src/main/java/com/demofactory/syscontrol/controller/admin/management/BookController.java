@@ -1,6 +1,7 @@
 package com.demofactory.syscontrol.controller.admin.management;
 
 import com.demofactory.syscontrol.api.BookService;
+import com.demofactory.syscontrol.common.Result;
 import com.demofactory.syscontrol.domain.Books;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
@@ -23,34 +24,25 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping("insertBook")
-    public String insertBook(Books books) {
-
+    public Result insertBook(@RequestBody Books books) {
         if (StringUtils.isBlank(books.getBookName())) {
-            System.out.println("result------书名不能为空");
-            return "书名不为空";
+            log.info("result------书名不能为空");
+            return Result.failure("书名不为空");
         }
         if (Objects.isNull(books.getDomainId())) {
-            System.out.println("result------域不能为空");
-            return "域不能为空";
+            log.info("result------域不能为空");
+            return Result.failure("域不能为空");
         }
         return bookService.insertBook(books);
     }
 
     @PostMapping("selectBook")
-    public List<Books> selectBook(Books books) {
+    public List<Books> selectBook(@RequestBody Books books) {
         return bookService.selectBook(books);
     }
 
     @PostMapping("deleteBook")
-    public String deleteBook(Books books) {
-        if (StringUtils.isBlank(books.getBookName())) {
-            System.out.println("result------书名不能为空");
-            return "书名不能为空";
-        }
-        if (Objects.isNull(books.getDomainId())) {
-            System.out.println("result------域不能为空");
-            return null;
-        }
+    public Result deleteBook(@RequestBody Books books) {
         return bookService.deleteBook(books.getId());
     }
 }

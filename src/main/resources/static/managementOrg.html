@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理机构页面</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+domainId:<br>
+<input type="text" name="domainId" id="domainId" value="1">
+<br>
+Id:<br>
+<input type="text" name="id" id="id" value="1">
+<br>
+<button onclick="select()">查询Org</button>
+<br />
+<br>
+domainId:<br>
+<input type="text" name="name" id="domainId1" value="1">
+<br>
+<br>
+orgName:<br>
+<input type="text" name="name" id="orgName" value="测试机构">
+<br>
+<button onclick="insert()">插入Org</button>
+<br>
+</body>
+<script>
+    var select = function () {
+        var domain = {
+            "domainId":document.getElementById("domainId").value,
+            "id":document.getElementById("id").value,
+        }
+        $.ajax({
+            type:'POST',
+            data:JSON.stringify(domain),
+            contentType :'application/json',
+            dataType:'json',
+            url :'management/selectOrg',
+            success :function(data) {
+                console.log(data);
+                $.each(data,function (i,item) {
+                    $('body').append("<b>"+"id:"+item["id"]
+                        +"domainId:"+item["domainId"]
+                        +"org_name:"+item["orgName"]
+                        +"status:"+item["status"]+"</b>"+"<br />");
+                })
+            },
+            error :function(e) {
+                alert("error");
+            }})
+    }
+    var insert = function () {
+        var domain = {
+            "domainId":document.getElementById("domainId1").value,
+            "orgName":document.getElementById("orgName").value,
+        }
+        $.ajax({
+            type:'POST',
+            data:JSON.stringify(domain),
+            contentType :'application/json',
+            dataType:'json',
+            url :'management/insertOrg',
+            success :function(data) {
+                if(data.success)
+                    alert(data.message)
+                else {
+                    alert(data.message)
+                    location.reload();
+                }
+            },
+            error :function(e) {
+                alert("error");
+            }})
+    }
+</script>
+</html>

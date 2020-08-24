@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理域页面</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+id:<br>
+<input type="text" name="id" id="id" value="1">
+<br>
+<button onclick="select()">查询Domain</button>
+<br />
+<br>
+name:<br>
+<input type="text" name="name" id="name" value="57">
+<br>
+<button onclick="insert()">插入Domain</button>
+<br>
+</body>
+<script>
+    var select = function () {
+        var domain = {
+            "id":document.getElementById("id").value,
+        }
+        $.ajax({
+            type:'POST',
+            data:JSON.stringify(domain),
+            contentType :'application/json',
+            dataType:'json',
+            url :'management/selectDomain',
+            success :function(data) {
+                console.log(data);
+                $.each(data,function (i,item) {
+                    $('body').append("<b>"+"id:"+item["id"]
+                        +"name:"+item["name"]
+                        +"status:"+item["status"]+"</b>"+"<br />");
+                })
+            },
+            error :function(e) {
+                alert("error");
+            }})
+    }
+    var insert = function () {
+        var domain = {
+            "name":document.getElementById("name").value,
+        }
+        $.ajax({
+            type:'POST',
+            data:JSON.stringify(domain),
+            contentType :'application/json',
+            dataType:'json',
+            url :'management/insertDomain',
+            success :function(data) {
+                if(data.success)
+                    alert(data.message)
+                else {
+                    alert(data.message)
+                    location.reload();
+                }
+            },
+            error :function(e) {
+                alert("error");
+            }})
+    }
+</script>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理书页面</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+domainId:<br>
+<input type="text" name="domainId" id="domainId" value="1">
+<br>
+bookName:<br>
+<input type="text" name="orgId" id="bookName" value="福尔摩斯探案集">
+<br>
+<button onclick="insert()">插入书</button>
+<br />
+domainId:<br>
+<input type="text" name="domainId" id="domainId1" value="1">
+<br>
+bookName:<br>
+<input type="text" name="orgId" id="bookName1" value="福尔摩斯探案集">
+<br>
+<button onclick="select()">查询书</button>
+<br>
+id:<br>
+<input type="text" name="id" id="id" value="">
+<br>
+<button onclick="del()">删除书</button>
+<br>
+</body>
+<script>
+    var insert = function () {
+        var books = {
+            "bookName":document.getElementById("bookName").value,
+            "domainId":document.getElementById("domainId").value,
+        }
+        $.ajax({
+            type:'POST',
+            data:JSON.stringify(books),
+            contentType :'application/json',
+            dataType:'json',
+            url :'management/insertBook',
+            success :function(data) {
+                if(data.success)
+                    alert(data.message)
+                else {
+                    alert(data.message)
+                    location.reload();
+                }
+            },
+            error :function(e) {
+                alert("error");
+            }})
+    }
+    var select = function () {
+        var books = {
+            "bookName":document.getElementById("bookName1").value,
+            "domainId":document.getElementById("domainId1").value,
+        }
+        $.ajax({
+            type:'POST',
+            data:JSON.stringify(books),
+            contentType :'application/json',
+            dataType:'json',
+            url :'management/selectBook',
+            success :function(data) {
+                console.log(data);
+                $.each(data,function (i,item) {
+                    $('body').append("<b>"
+                        +"id:"+item["id"]
+                        +"domainId:"+item["domainId"]
+                        +"bookName:"+item["bookName"]
+                        +"</b>"+"<br />");
+                })
+            },
+            error :function(e) {
+                alert("error");
+            }})
+    }
+
+    var del = function () {
+        var books = {
+            "id":document.getElementById("id").value,
+        }
+        $.ajax({
+            type:'POST',
+            data:JSON.stringify(books),
+            contentType :'application/json',
+            dataType:'json',
+            url :'management/deleteBook',
+            success :function(data) {
+                if(data.success)
+                    alert(data.message)
+                else {
+                    alert(data.message)
+                    location.reload();
+                }
+            },
+            error :function(e) {
+                alert("异常");
+            }})
+    }
+
+</script>
+</html>

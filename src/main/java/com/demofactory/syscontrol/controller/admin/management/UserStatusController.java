@@ -1,10 +1,12 @@
 package com.demofactory.syscontrol.controller.admin.management;
 
 import com.demofactory.syscontrol.api.UserStatusService;
+import com.demofactory.syscontrol.common.Result;
 import com.demofactory.syscontrol.domain.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,11 +26,17 @@ public class UserStatusController {
     private UserStatusService userStatusService;
 
     @PostMapping(value = {"deleteUser", "enableUser", "disableUser"})
-    public String UpdateUser(SysUser sysUser) {
+    public Result UpdateUser(@RequestBody SysUser sysUser) {
         if (Objects.isNull(sysUser.getStatus())) {
             log.info("result------status不能为空");
-            return "status不能为空";
+            return Result.failure("status不能为空");
         }
-        return userStatusService.userStatusUpdate(sysUser);
+        if(Objects.isNull(sysUser.getId()))
+        {
+            log.info("result------id不能为空");
+            return Result.failure("id不能为空");
+        }
+        return Result.OK(userStatusService.userStatusUpdate(sysUser));
     }
+
 }

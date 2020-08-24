@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OrgStatus页面</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+id:<br>
+<input type="text" name="id" id="id" value="1">
+<br />
+<br>
+<button onclick="update(1)">启用Org</button>
+<br>
+<button onclick="update(2)">禁用Org</button>
+<br>
+<button onclick="update(3)">删除Org</button>
+<br>
+</body>
+<script>
+    var update = function (flag) {
+        var user = {
+            "id":document.getElementById("id").value,
+            "status":flag
+        }
+        $.ajax({
+            type:'POST',
+            data:JSON.stringify(user),
+            contentType :'application/json',
+            dataType:'json',
+            url :'management/enableOrg',
+            success :function(data) {
+                if(data.success)
+                    alert(data.message)
+                else {
+                    alert(data.message)
+                    location.reload();
+                }
+            },
+            error :function(e) {
+                alert("异常");
+            }})
+    }
+</script>
+</html>
