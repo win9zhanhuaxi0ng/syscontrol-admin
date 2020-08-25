@@ -20,21 +20,17 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("management")
-public class BookController
-{
+public class BookController {
     @Reference(check = false)
     private BookService bookService;
 
     @PostMapping("insertBook")
-    public ObjResult<String> insertBook(@RequestBody Books books)
-    {
-        if (StringUtils.isBlank(books.getBookName()))
-        {
+    public ObjResult<String> insertBook(@RequestBody Books books) {
+        if (StringUtils.isBlank(books.getBookName())) {
             log.info("result------书名不能为空");
             return ObjResult.failure("书名不为空");
         }
-        if (Objects.isNull(books.getDomainId()))
-        {
+        if (Objects.isNull(books.getDomainId())) {
             log.info("result------域不能为空");
             return ObjResult.failure("域不能为空");
         }
@@ -42,14 +38,12 @@ public class BookController
     }
 
     @PostMapping("selectBook")
-    public ObjResult<List<Books>> selectBook(@RequestBody Books books)
-    {
+    public ObjResult<List<Books>> selectBook(@RequestBody Books books) {
         return bookService.selectBook(books);
     }
 
     @PostMapping("deleteBook")
-    public ObjResult<String> deleteBook(@RequestBody Books books)
-    {
+    public ObjResult<String> deleteBook(@RequestBody Books books) {
         return bookService.deleteBook(books.getId());
     }
 }

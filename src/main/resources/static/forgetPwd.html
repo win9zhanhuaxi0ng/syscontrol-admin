@@ -36,7 +36,7 @@
             success: function (data) {
                 if (data.success) {
                     alert(data.message);
-                    window.location.href = "resetPwd.html";
+                    window.location.href = "resetPwd.html?account="+field.account;
                 } else {
                     alert(data.message);
                     location.reload();

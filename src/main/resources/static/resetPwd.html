@@ -6,6 +6,54 @@
     <script src="js/jquery/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-
+<form>
+    <label>
+        手机号或邮箱：<input type="text" id="account" disabled="disabled" value=""><br>
+    </label>
+    <label>
+        密码：<input type="password" id="password"><br/>
+    </label>
+    <label>
+        二次密码：<input type="password" id="secondaryPwd"><br/>
+    </label>
+    <input type="button" value="重设" id="resetPwdBtn">
+</form>
+<button id="getBack">返回</button>
 </body>
+<script>
+    $(document).ready(function () {
+        var url = location.search;
+        url = url.substring(url.indexOf("=") + 1, url.length);
+        $("#account").val(url);
+    })
+    $("#getBack").click(function () {
+        window.location.href = "index.html";
+    })
+
+    $("#resetPwdBtn").click(function () {
+        var field = {
+            account: $("#account").val(),
+            password: $("#password").val(),
+            secondaryPwd: $("#secondaryPwd").val(),
+        }
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(field),
+            contentType: 'application/json',
+            dataType: 'json',
+            url: '/index/resetPassword',
+            success: function (data) {
+                if (data.success) {
+                    alert(data.message);
+                    window.location.href = "index.html";
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function (e) {
+                alert("未知错误请联系管理员");
+            }
+        })
+    })
+</script>
 </html>

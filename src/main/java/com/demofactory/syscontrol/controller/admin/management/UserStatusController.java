@@ -21,22 +21,18 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("management")
-public class UserStatusController
-{
+public class UserStatusController {
 
     @Reference(check = false)
     private UserStatusService userStatusService;
 
     @PostMapping(value = {"deleteUser", "enableUser", "disableUser"})
-    public ObjResult<String> UpdateUser(@RequestBody SysUser sysUser)
-    {
-        if (Objects.isNull(sysUser.getStatus()))
-        {
+    public ObjResult<String> UpdateUser(@RequestBody SysUser sysUser) {
+        if (Objects.isNull(sysUser.getStatus())) {
             log.info("result------status不能为空");
             return ObjResult.failure("status不能为空");
         }
-        if (Objects.isNull(sysUser.getId()))
-        {
+        if (Objects.isNull(sysUser.getId())) {
             log.info("result------id不能为空");
             return ObjResult.failure("id不能为空");
         }

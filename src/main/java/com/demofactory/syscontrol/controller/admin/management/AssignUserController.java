@@ -23,33 +23,27 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("management")
-public class AssignUserController
-{
+public class AssignUserController {
 
     @Reference(check = false)
     private AssignUserService assignUserService;
 
     @PostMapping("selectAssignUser")
-    public ObjResult<List<SysUser>> SelectToBeAssignedUser(@RequestBody SysUser sysUser)
-    {
+    public ObjResult<List<SysUser>> SelectToBeAssignedUser(@RequestBody SysUser sysUser) {
         return assignUserService.selectAssignUser(sysUser);
     }
 
     @PostMapping(value = {"updateAssignUser", "assignUnassignedUser"})
-    public ObjResult<String> updateAssignUser(@RequestBody SysUser sysUser)
-    {
-        if (StringUtils.isBlank(sysUser.getAccount()))
-        {
+    public ObjResult<String> updateAssignUser(@RequestBody SysUser sysUser) {
+        if (StringUtils.isBlank(sysUser.getAccount())) {
             log.info("result------用户名为空");
             return ObjResult.failure("用户名不为空");
         }
-        if (Objects.isNull(sysUser.getDomainId()))
-        {
+        if (Objects.isNull(sysUser.getDomainId())) {
             log.info("result------域为空");
             return ObjResult.failure("域不为空");
         }
-        if (Objects.isNull(sysUser.getOrgId()))
-        {
+        if (Objects.isNull(sysUser.getOrgId())) {
             log.info("result------机构为空");
             return ObjResult.failure("机构不为空");
         }

@@ -23,6 +23,7 @@ public class UserController {
 
     @Reference(check = false)
     private SysUserService sysUserService;
+
     /**
      * 显示用户域名和组织名
      *
