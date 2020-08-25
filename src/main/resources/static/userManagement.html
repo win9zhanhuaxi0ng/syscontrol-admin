@@ -2,17 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>普通用户管理页面</title>
     <script src="js/jquery/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-<p id="p1">
-</p>
-<p id="findDomainAndOrg">
-</p>
-<button id="joinDomianAndOrgBtn" style="display: none;">加入域和组织</button>
-<br>
-<button id="showBooksBtn">显示书列表</button>
+<div style="height: 150px;width: 300px;border: 1px yellow solid">
+    <p id="p1">
+    </p>
+    <p id="findDomainAndOrg">
+    </p>
+    <button id="joinDomianAndOrgBtn" style="display: none;">加入域和组织</button>
+    <br>
+</div>
+<div style="height: 500px;width: 600px;border: 1px blueviolet solid;display: none" id="domainAndOrgDiv">
+    <select name="" id="selDomain">
+        <option value="123">--你好--</option>
+        <option value="123">--你好--</option>
+    </select>
+    <select name="" id="selOrg">
+    </select>
+    <button id="selBtn">提交</button>
+</div>
+<div style="height: 500px;width: 600px;border: 1px blueviolet solid;display: none" id="booksDiv">
+    <div style="height: 498px;width: 278px;border: 1px blueviolet solid;float: left">
+        <p>已添加书籍</p>
+        <table id='userBooksTable'>
+        </table>
+    </div>
+    <div style="height: 498px;width: 278px;border: 1px blueviolet solid;float: left;margin-left: 40px">
+        <p>未添加书籍</p>
+        <table id="domainBooksTable">
+
+        </table>
+    </div>
+</div>
 </body>
 <script>
     $(document).ready(function () {
@@ -24,10 +47,139 @@
             data: JSON.stringify(field),
             contentType: 'application/json',
             dataType: 'json',
+            async: false,
             url: '/management/findDomainAndOrg',
             success: function (data) {
                 if (data.success) {
+                    $("#booksDiv").show();
                     $("#findDomainAndOrg").text(data.message);
+                    var field = {
+                        id: "1295980103353720834"
+                    }
+                    //用户已添加的书籍
+                    $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify(field),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        async: false,
+                        url: '/management/listBooksByUser',
+                        success: function (data) {
+                            if (data.success) {
+                                $("#userBooksTable").append("<tr>" +
+                                    "<th>书名</th>" +
+                                    "<th>地址</th>" +
+                                    "<th>功能</th>" +
+                                    "</tr>")
+                                $.each(data.data, function (index, obj) {
+                                    $("#userBooksTable").append("<tr>" +
+                                        "<td>" + obj.bookName + "</td>" +
+                                        "<td>" + obj.bookUrl + "</td>" +
+                                        "<td><button class='delete' value='" + obj.id + "' name='" + obj.bookName + "'>删除</button></td>" +
+                                        "</tr>");
+                                })
+                            } else {
+                                alert(data.message);
+                            }
+                        },
+                        error: function (e) {
+                            alert("未知错误请联系管理员");
+                        }
+                    })
+                    //用户未添加的书籍
+                    $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify(field),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        async: false,
+                        url: '/management/listBooksByDomain',
+                        success: function (data) {
+                            $("#domainBooksTable").append("<tr>\n" +
+                                "<th>书名</th>" +
+                                "<th>地址</th>" +
+                                "<th>功能</th>" +
+                                "</tr>")
+                            if (data.success) {
+                                $.each(data.data, function (index, obj) {
+                                    $("#domainBooksTable").append("<tr>" +
+                                        "<td>" + obj.bookName + "</td>" +
+                                        "<td>" + obj.bookUrl + "</td>" +
+                                        "<td><button class='addBook' value='" + obj.id + "' name='" + obj.bookName + "'>添加</td>" +
+                                        "</tr>");
+                                })
+
+                            } else {
+                                alert(data.message);
+                            }
+                        },
+                        error: function (e) {
+                            alert("未知错误请联系管理员");
+                        }
+                    })
+                    $(".delete").click(function () {
+                        var msg = "您确定删除：《" + this.name + "》吗?";
+                        var field = {
+                            bookId: this.value,
+                            userId: "1295980103353720834"
+                        }
+                        if (confirm(msg) == true) {
+                            $.ajax({
+                                type: 'POST',
+                                data: JSON.stringify(field),
+                                contentType: 'application/json',
+                                dataType: 'json',
+                                url: '/management/deleteBooksByUser',
+                                success: function (data) {
+                                    if (data.success) {
+                                        alert(data.message);
+                                        location.reload();
+                                    } else {
+                                        alert(data.message);
+                                        location.reload();
+                                    }
+                                }, error: function (e) {
+                                    alert("未知错误请联系管理员");
+                                    location.reload();
+                                }
+                            })
+                            return true;
+                        } else {
+                            return false;
+                        }
+
+
+                    })
+                    $(".addBook").click(function () {
+                        var msg = "您确定添加：《" + this.name + "》吗?";
+                        var field = {
+                            bookId: this.value,
+                            userId: "1295980103353720834"
+                        }
+                        if (confirm(msg) == true) {
+                            $.ajax({
+                                type: 'POST',
+                                data: JSON.stringify(field),
+                                contentType: 'application/json',
+                                dataType: 'json',
+                                url: '/management/insertBooksToUser',
+                                success: function (data) {
+                                    if (data.success) {
+                                        alert(data.message);
+                                        location.reload();
+                                    } else {
+                                        alert(data.message);
+                                        location.reload();
+                                    }
+                                }, error: function (e) {
+                                    alert("未知错误请联系管理员");
+                                    location.reload();
+                                }
+                            })
+                        } else {
+                            return false;
+                        }
+                    })
                 } else {
                     $("#findDomainAndOrg").text(data.message);
                     $("#joinDomianAndOrgBtn").show();
@@ -37,8 +189,85 @@
                 alert("未知错误请联系管理员");
             }
         })
+        $("#joinDomianAndOrgBtn").click(function () {
+            $("#domainAndOrgDiv").show();
+            $("#joinDomianAndOrgBtn").hide();
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                async:false,
+                url: '/management/selectDomainList',
+                success: function (data) {
+                    if (data.success()) {
+                        $.each(data.data, function (index, obj) {
+                            $("#selDomain").append("<option value='" + obj.id + "'>" + obj.name + "</option>");
+                        })
+                        var filed = {
+                            domainId: $("#selDomain option:selected").val()
+                        }
+                        $.ajax({
+                            type: 'POST',
+                            data: JSON.stringify(filed),
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            url: '/management/selectOrgListByDomain',
+                            success: function (data) {
+                                if (data.success) {
+                                    $.each(data.data, function (index, obj) {
+                                        $("#selOrg").append("<option value='" + obj.id + "'>" + obj.orgName + "</option>");
+                                    })
+                                } else {
+                                    alert("当前域无组织请重新选择");
+                                }
+                            }, error: function (e) {
+                                alert("未知错误，请联系管理员");
+                            }
+                        })
+                    } else {
+                        alert("当前无域存在请联系管理员");
+                    }
+
+                }, error: function (e) {
+                    alert("未知错误请联系管理员")
+                }
+            })
+            $("#selBtn").click(function () {
+                var options1 = $("#selDomain option:selected");
+                var options2 = $("#selOrg option:selected");
+                var msg = "您确定加入域：" + options1.text() + "下组织：" + options2.text() + "吗?";
+                if (confirm(msg) == true) {
+                    var filed = {
+                        id: "1296000085949087745",
+                        domainId: options1.val(),
+                        orgId: options2.val()
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify(filed),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        async: false,
+                        url: '/management/joinDomianAndOrg',
+                        success: function (data) {
+                            if (data.success) {
+                                alert("添加成功");
+                                location.reload();
+                            } else {
+                                alert("添加失败");
+                                location.reload();
+                            }
+                        }, error: function (e) {
+                            alert("未知错误，请联系管理员");
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            })
+        })
     })
-    $("#showBooksBtn").click(function () {
-    })
+
+
 </script>
 </html>
