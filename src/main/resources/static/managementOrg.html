@@ -43,9 +43,9 @@ orgName:<br>
             success: function (data) {
                 console.log(data.data);
                 $.each(data.data, function (i, item) {
-                    $('body').append("<b>" + "id:" + item["id"]
-                        + "domainId:" + item["domainId"]
-                        + "org_name:" + item["orgName"]
+                    $('body').append("<b>" + "id:" + item["id"] +"&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "domainId:" + item["domainId"]+"&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "org_name:" + item["orgName"]+"&nbsp;&nbsp;&nbsp;&nbsp;"
                         + "status:" + item["status"] + "</b>" + "<br />");
                 })
             },

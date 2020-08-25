@@ -71,9 +71,9 @@ id:<br>
                 console.log(data.data);
                 $.each(data.data, function (i, item) {
                     $('body').append("<b>"
-                        + "id:" + item["id"]
-                        + "domainId:" + item["domainId"]
-                        + "bookName:" + item["bookName"]
+                        + "id:" + item["id"]+"&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "domainId:" + item["domainId"]+"&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "bookName:" + item["bookName"]+"&nbsp;&nbsp;&nbsp;&nbsp;"
                         + "</b>" + "<br />");
                 })
             },
