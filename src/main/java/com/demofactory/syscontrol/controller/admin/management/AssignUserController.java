@@ -1,6 +1,7 @@
 package com.demofactory.syscontrol.controller.admin.management;
 
 import com.demofactory.syscontrol.api.AssignUserService;
+import com.demofactory.syscontrol.common.ObjResult;
 import com.demofactory.syscontrol.common.Result;
 import com.demofactory.syscontrol.domain.SysUser;
 import lombok.extern.slf4j.Slf4j;
@@ -37,22 +38,22 @@ public class AssignUserController
     }
 
     @PostMapping(value = {"updateAssignUser", "assignUnassignedUser"})
-    public Result updateAssignUser(@RequestBody SysUser sysUser)
+    public ObjResult<String> updateAssignUser(@RequestBody SysUser sysUser)
     {
         if (StringUtils.isBlank(sysUser.getAccount()))
         {
             log.info("result------用户名为空");
-            return Result.failure("用户名不为空");
+            return ObjResult.failure("用户名不为空");
         }
         if (Objects.isNull(sysUser.getDomainId()))
         {
             log.info("result------域为空");
-            return Result.failure("域不为空");
+            return ObjResult.failure("域不为空");
         }
         if (Objects.isNull(sysUser.getOrgId()))
         {
             log.info("result------机构为空");
-            return Result.failure("机构不为空");
+            return ObjResult.failure("机构不为空");
         }
         return assignUserService.updateAssignUser(sysUser);
     }

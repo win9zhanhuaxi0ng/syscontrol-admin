@@ -2,6 +2,7 @@ package com.demofactory.syscontrol.controller.admin.management;
 
 import com.demofactory.syscontrol.api.DomainStatusService;
 
+import com.demofactory.syscontrol.common.ObjResult;
 import com.demofactory.syscontrol.common.Result;
 import com.demofactory.syscontrol.domain.SysDomain;
 import com.demofactory.syscontrol.domain.SysUser;
@@ -28,12 +29,12 @@ public class DomainStatusController
     private DomainStatusService domainStatusService;
 
     @PostMapping(value = {"deleteDomain", "enableDomain", "disableDomain"})
-    public Result domainUpdate(@RequestBody SysDomain sysDomain)
+    public ObjResult<String> domainUpdate(@RequestBody SysDomain sysDomain)
     {
         if (Objects.isNull(sysDomain.getId()))
         {
             log.info("result------id不能为空");
-            return Result.failure("id不能为空");
+            return ObjResult.failure("id不能为空");
         }
         return domainStatusService.domainUpdate(sysDomain);
     }
@@ -48,12 +49,12 @@ public class DomainStatusController
     }
 
     @PostMapping("insertDomain")
-    public Result insertDomain(@RequestBody SysDomain sysDomain)
+    public ObjResult<String> insertDomain(@RequestBody SysDomain sysDomain)
     {
         if (StringUtils.isBlank(sysDomain.getName()))
         {
             log.info("result------域名不能为空");
-            return Result.failure("域名不为空");
+            return ObjResult.failure("域名不为空");
         }
         return domainStatusService.insertSysDomain(sysDomain);
     }

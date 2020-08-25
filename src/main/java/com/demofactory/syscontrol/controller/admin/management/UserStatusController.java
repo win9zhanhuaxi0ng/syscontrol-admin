@@ -1,6 +1,7 @@
 package com.demofactory.syscontrol.controller.admin.management;
 
 import com.demofactory.syscontrol.api.UserStatusService;
+import com.demofactory.syscontrol.common.ObjResult;
 import com.demofactory.syscontrol.common.Result;
 import com.demofactory.syscontrol.domain.SysUser;
 import lombok.extern.slf4j.Slf4j;
@@ -27,17 +28,17 @@ public class UserStatusController
     private UserStatusService userStatusService;
 
     @PostMapping(value = {"deleteUser", "enableUser", "disableUser"})
-    public Result UpdateUser(@RequestBody SysUser sysUser)
+    public ObjResult<String> UpdateUser(@RequestBody SysUser sysUser)
     {
         if (Objects.isNull(sysUser.getStatus()))
         {
             log.info("result------status不能为空");
-            return Result.failure("status不能为空");
+            return ObjResult.failure("status不能为空");
         }
         if (Objects.isNull(sysUser.getId()))
         {
             log.info("result------id不能为空");
-            return Result.failure("id不能为空");
+            return ObjResult.failure("id不能为空");
         }
         return userStatusService.userStatusUpdate(sysUser);
     }

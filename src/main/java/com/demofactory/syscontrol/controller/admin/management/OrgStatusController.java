@@ -1,6 +1,7 @@
 package com.demofactory.syscontrol.controller.admin.management;
 
 import com.demofactory.syscontrol.api.OrgStatusService;
+import com.demofactory.syscontrol.common.ObjResult;
 import com.demofactory.syscontrol.common.Result;
 import com.demofactory.syscontrol.domain.SysOrg;
 
@@ -27,12 +28,12 @@ public class OrgStatusController
     private OrgStatusService orgStatusService;
 
     @PostMapping(value = {"deleteOrg", "enableOrg", "disableOrg"})
-    public Result UpdateOrg(@RequestBody SysOrg sysOrg)
+    public ObjResult<String> UpdateOrg(@RequestBody SysOrg sysOrg)
     {
         if (Objects.isNull(sysOrg.getId()))
         {
             log.info("result------id不能为空");
-            return Result.failure("id不能为空");
+            return ObjResult.failure("id不能为空");
         }
         return orgStatusService.orgStatusUpdate(sysOrg);
     }
@@ -47,17 +48,17 @@ public class OrgStatusController
     }
 
     @PostMapping("insertOrg")
-    public Result insertOrg(@RequestBody SysOrg sysOrg)
+    public ObjResult<String> insertOrg(@RequestBody SysOrg sysOrg)
     {
         if (Objects.isNull(sysOrg.getDomainId()))
         {
             log.info("result------域id不能为空");
-            return Result.failure("域名不为空");
+            return ObjResult.failure("域名不为空");
         }
         if (StringUtils.isBlank(sysOrg.getOrgName()))
         {
             log.info("result------机构name不能为空");
-            return Result.failure("机构名不能为空");
+            return ObjResult.failure("机构名不能为空");
         }
         return orgStatusService.insertSysOrg(sysOrg);
     }
