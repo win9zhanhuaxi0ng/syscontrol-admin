@@ -41,8 +41,8 @@ orgId:<br>
             dataType: 'json',
             url: 'management/selectAssignUser',
             success: function (data) {
-                console.log(data);
-                $.each(data, function (i, item) {
+                console.log(data.data);
+                $.each(data.data, function (i, item) {
                     $('body').append("<b>" + "domainId:" + item["domainId"]
                         + "orgId:" + item["orgId"]
                         + "account:" + item["account"] + "</b>" + "<br />");

@@ -41,11 +41,9 @@ public class DomainStatusController
 
     //TODO 域管理 增查
     @PostMapping("selectDomain")
-    public List<SysDomain> SelectDomain(@RequestBody SysDomain sysDomain)
+    public ObjResult<List<SysDomain>> SelectDomain(@RequestBody SysDomain sysDomain)
     {
-        List<SysDomain> sysDomains = null;
-        sysDomains = domainStatusService.selectSysDomain(sysDomain);
-        return sysDomains;
+        return domainStatusService.selectSysDomain(sysDomain);
     }
 
     @PostMapping("insertDomain")

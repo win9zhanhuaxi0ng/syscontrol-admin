@@ -42,7 +42,7 @@ public class BookController
     }
 
     @PostMapping("selectBook")
-    public List<Books> selectBook(@RequestBody Books books)
+    public ObjResult<List<Books>> selectBook(@RequestBody Books books)
     {
         return bookService.selectBook(books);
     }

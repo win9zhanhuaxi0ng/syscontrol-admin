@@ -40,11 +40,9 @@ public class OrgStatusController
 
     //TODO 机构管理 增查
     @PostMapping("selectOrg")
-    public List<SysOrg> SelectSysOrg(@RequestBody SysOrg sysOrg)
+    public ObjResult<List<SysOrg>> SelectSysOrg(@RequestBody SysOrg sysOrg)
     {
-        List<SysOrg> sysOrgs = null;
-        sysOrgs = orgStatusService.selectSysOrg(sysOrg);
-        return sysOrgs;
+        return orgStatusService.selectSysOrg(sysOrg);
     }
 
     @PostMapping("insertOrg")

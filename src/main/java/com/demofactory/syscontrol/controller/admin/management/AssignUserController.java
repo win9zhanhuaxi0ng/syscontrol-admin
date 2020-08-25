@@ -30,11 +30,9 @@ public class AssignUserController
     private AssignUserService assignUserService;
 
     @PostMapping("selectAssignUser")
-    public List<SysUser> SelectToBeAssignedUser(@RequestBody SysUser sysUser)
+    public ObjResult<List<SysUser>> SelectToBeAssignedUser(@RequestBody SysUser sysUser)
     {
-        List<SysUser> sysUsers = null;
-        sysUsers = assignUserService.selectAssignUser(sysUser);
-        return sysUsers;
+        return assignUserService.selectAssignUser(sysUser);
     }
 
     @PostMapping(value = {"updateAssignUser", "assignUnassignedUser"})

@@ -65,8 +65,8 @@ id:<br>
             dataType: 'json',
             url: 'management/selectBook',
             success: function (data) {
-                console.log(data);
-                $.each(data, function (i, item) {
+                console.log(data.data);
+                $.each(data.data, function (i, item) {
                     $('body').append("<b>"
                         + "id:" + item["id"]
                         + "domainId:" + item["domainId"]
