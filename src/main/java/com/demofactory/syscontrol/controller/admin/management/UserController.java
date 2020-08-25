@@ -23,7 +23,6 @@ public class UserController {
 
     @Reference(check = false)
     private SysUserService sysUserService;
-
     /**
      * 显示用户域名和组织名
      *
@@ -42,18 +41,18 @@ public class UserController {
      * @return
      */
     @PostMapping("joinDomianAndOrg")
-    public String joinDomianAndOrg(@RequestBody SysUser sysUser) {
+    public Result joinDomianAndOrg(@RequestBody SysUser sysUser) {
         return sysUserService.insertSysDomainAndSysOrg(sysUser);
     }
 
     /**
-     * 列出用户所在域下的所有书
+     * 列出用户所在域下的所有未添加的书
      *
      * @param sysUser
      * @return
      */
     @PostMapping("listBooksByDomain")
-    public List<Books> listBooksByDomain(@RequestBody SysUser sysUser) {
+    public Result listBooksByDomain(@RequestBody SysUser sysUser) {
         return sysUserService.selectBooksByUserDomainId(sysUser);
     }
 
@@ -64,7 +63,7 @@ public class UserController {
      * @return
      */
     @PostMapping("insertBooksToUser")
-    public String insertBooksToUser(@RequestBody UserBook userBook) {
+    public Result insertBooksToUser(@RequestBody UserBook userBook) {
         return sysUserService.insertBooksToUser(userBook);
     }
 
@@ -75,19 +74,20 @@ public class UserController {
      * @return
      */
     @PostMapping("listBooksByUser")
-    public List<Books> listBooksByUser(@RequestBody SysUser sysUser) {
+    public Result listBooksByUser(@RequestBody SysUser sysUser) {
         return sysUserService.selectBooksByUserId(sysUser);
     }
 
     /**
      * 用户删除书功能
      *
-     * @param userBook
+     * @param
      * @return
      */
     @PostMapping("deleteBooksByUser")
-    public String deleteBooksByUser(@RequestBody UserBook userBook) {
+    public Result deleteBooksByUser(@RequestBody UserBook userBook) {
         return sysUserService.deleteBooksByUser(userBook);
     }
+
 
 }
