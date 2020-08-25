@@ -35,7 +35,7 @@ public class DomainStatusController
             log.info("result------id不能为空");
             return Result.failure("id不能为空");
         }
-        return Result.OK(domainStatusService.domainUpdate(sysDomain));
+        return domainStatusService.domainUpdate(sysDomain);
     }
 
     //TODO 域管理 增查

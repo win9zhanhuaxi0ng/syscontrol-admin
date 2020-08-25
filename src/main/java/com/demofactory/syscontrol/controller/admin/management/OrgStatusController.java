@@ -34,7 +34,7 @@ public class OrgStatusController
             log.info("result------id不能为空");
             return Result.failure("id不能为空");
         }
-        return Result.OK(orgStatusService.orgStatusUpdate(sysOrg));
+        return orgStatusService.orgStatusUpdate(sysOrg);
     }
 
     //TODO 机构管理 增查

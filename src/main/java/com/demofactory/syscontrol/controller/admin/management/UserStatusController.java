@@ -39,7 +39,7 @@ public class UserStatusController
             log.info("result------id不能为空");
             return Result.failure("id不能为空");
         }
-        return Result.OK(userStatusService.userStatusUpdate(sysUser));
+        return userStatusService.userStatusUpdate(sysUser);
     }
 
 }
