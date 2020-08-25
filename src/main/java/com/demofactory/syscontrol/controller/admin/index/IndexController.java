@@ -60,9 +60,11 @@ public class IndexController {
 
     //修改密码
     @PostMapping("resetPassword")
-    public String resetPassword(@RequestBody SysUserDTO sysUserDTO) {
+    public Result resetPassword(@RequestBody SysUserDTO sysUserDTO) {
+        Result result = new Result();
         if (StringUtils.isBlank(sysUserDTO.getPassword()) || StringUtils.isBlank(sysUserDTO.getSecondaryPwd())) {
-            return "输入不能为空！";
+            result.setMessage("输入不能为空");
+            return result;
         }
         return sysUserService.updatePassword(sysUserDTO);
     }

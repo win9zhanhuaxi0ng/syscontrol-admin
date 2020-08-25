@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
 @Slf4j
 @RestController
 @RequestMapping("management")
@@ -20,7 +19,7 @@ public class OrgController {
     private SysOrgService sysOrgService;
 
     @PostMapping("selectOrgListByDomain")
-    public Result selectOrgListByDomain(@RequestBody SysDomain sysDomain){
+    public Result selectOrgListByDomain(@RequestBody SysDomain sysDomain) {
         return sysOrgService.selectOrgListByDomain(sysDomain);
     }
 }

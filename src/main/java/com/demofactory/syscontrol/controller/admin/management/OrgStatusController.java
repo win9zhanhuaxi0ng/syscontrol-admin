@@ -21,17 +21,14 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("management")
-public class OrgStatusController
-{
+public class OrgStatusController {
 
     @Reference
     private OrgStatusService orgStatusService;
 
     @PostMapping(value = {"deleteOrg", "enableOrg", "disableOrg"})
-    public ObjResult<String> UpdateOrg(@RequestBody SysOrg sysOrg)
-    {
-        if (Objects.isNull(sysOrg.getId()))
-        {
+    public ObjResult<String> UpdateOrg(@RequestBody SysOrg sysOrg) {
+        if (Objects.isNull(sysOrg.getId())) {
             log.info("result------id不能为空");
             return ObjResult.failure("id不能为空");
         }
@@ -40,21 +37,17 @@ public class OrgStatusController
 
     //TODO 机构管理 增查
     @PostMapping("selectOrg")
-    public ObjResult<List<SysOrg>> SelectSysOrg(@RequestBody SysOrg sysOrg)
-    {
+    public ObjResult<List<SysOrg>> SelectSysOrg(@RequestBody SysOrg sysOrg) {
         return orgStatusService.selectSysOrg(sysOrg);
     }
 
     @PostMapping("insertOrg")
-    public ObjResult<String> insertOrg(@RequestBody SysOrg sysOrg)
-    {
-        if (Objects.isNull(sysOrg.getDomainId()))
-        {
+    public ObjResult<String> insertOrg(@RequestBody SysOrg sysOrg) {
+        if (Objects.isNull(sysOrg.getDomainId())) {
             log.info("result------域id不能为空");
             return ObjResult.failure("域名不为空");
         }
-        if (StringUtils.isBlank(sysOrg.getOrgName()))
-        {
+        if (StringUtils.isBlank(sysOrg.getOrgName())) {
             log.info("result------机构name不能为空");
             return ObjResult.failure("机构名不能为空");
         }

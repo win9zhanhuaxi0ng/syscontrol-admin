@@ -17,7 +17,7 @@ public class DomainController {
     private SysDomainService sysDomainService;
 
     @GetMapping("selectDomainList")
-    public Result selectDomainList(){
+    public Result selectDomainList() {
         return sysDomainService.selectDomainList();
     }
 }
